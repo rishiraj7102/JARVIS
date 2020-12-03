@@ -4,6 +4,8 @@ import datetime
 import wikipedia
 import webbrowser
 import os
+from win10toast import ToastNotifier
+
 import smtplib
 
 engine = pyttsx3.init('sapi5')
@@ -72,6 +74,7 @@ elif 'open Reddit' in query:  # opens Reddit on Chrome
     url = 'http://reddit.com'
     chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
     webbrowser.get(chrome_path).open(url)
+
 elif 'open Instagram' in query:  # opens Insta on Chrome
     url = 'http://instagram.com'
     chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
@@ -105,18 +108,20 @@ elif 'hello' in query:    #responds to you when you say hello
     speak("Hello Sir. Nice to hear from you ")
 elif 'my personal details' in query:   #tells me few small personal details
     speak("Your  name  is  Rishabh  Kamlesh  Jain.  Your  age  is  18  years  and  you  are  a  sophomore  at  VIT  Bhopal  University.  You  currently  are  studying  CSE   with  Artificial  Intelligence  and  Machine  Learning. Cant  disclose  more information  as  it  is  against  my  rules!")
-elif 'alarm' in query:    #sets an alarm according to the time you want
+elif 'alarm' in query:    #sets an alarm according to the time you want and shows a notification on windowss\
     speak("What hour do you want the alarm")
     hours = int(input())
     speak("What minute do you want the alarm")
     minutes = int(input())
     speak("Is it morning or evening")
     AmPm = takecommand()
-    if AmPm == 'evening':
+    if 'evening' in AmPm:
         hours = hours + 12
     while True:
         if (hours == datetime.datetime.now().hour) and (minutes == datetime.datetime.now().minute):
             speak("SIR WAKE UP! ITS TIME !")
+            toaster=ToastNotifier()
+            toaster.show_toast("ALert!",'The timer is over ',threaded=True,icon_path=None,duration=10)
             wishme()
             break
 elif 'time' in query:  # tells the present time
